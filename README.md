@@ -104,37 +104,45 @@ We will now use visuals from matplotlib to see
 ### Visualisations
 #### **By day** 
 For a more understandeable visual, convert the order of ploting to ascending order
+
     ```
         show_i_like['weekday'] = pd.Categorical(show_i_like['weekday'],         categories= [0,1,2,3,4,5,6],ordered=True)
     ```
 Creating a new feature to store the count of episodes watched per day 
+
     ```
         show_by_day = show_i_like['weekday'].value_counts()
     ```
 Sort the index using our categorical, so that Monday (0) is first, Tuesday (1) is second, etc.
+
     ```
         show_by_day = show_by_day.sort_index()
     ```
 A plot of the watch frequency by day 
+
     ```
         show_by_day.plot(kind='bar', figsize=(20,10), title='Episodes Watched by Day',xlabel='Day of the Week (Monday - Sunday)', ylabel='Number of Episodes Watched')
     ```
 #### **By time of day** 
-We define the order of plotting for hours. Using the 24 hour system 
+We define the order of plotting for hours. Using the 24 hour system.
+
     ```
         show_i_like['hour'] = pd.Categorical(show_i_like['hour'], categories=
         [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],ordered=True)
     ```
 Creating a new feature to store the count of  rows for each hour
+
     ```
         show_by_hour = show_i_like['hour'].value_counts()
     ```
 
 Sort the index in the desired order of our categorical  so that midnight (0) is first, 1 a.m. (1) is second, etc.
+
     ```
         show_by_hour = show_by_hour.sort_index()
     ```
 Plot show_by_hour as a bar chart with the listed size and title
+
     ```
         show_by_hour.plot(kind='bar', figsize=(20,10), title='Episodes Watched by Hour',xlabel='Hour of the Day (0-23)', ylabel='Number of Episodes Watched')
     ```
