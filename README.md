@@ -70,6 +70,7 @@ Now that our data types are fixed we can proceed to analysis.
 ### Chosing a show to analyse
 We proceed by creating a new dataframe for a specific show to  see how much time is spent watching this show and when i watch this show 
 Used the str.contains function that takes 2 arguments. The first is the string and the second is regex , which tells the function that the previous argument is a string and not a regular expression.
+
     ```
         show_i_like = df[df['Title'].str.contains('show_i_like', regex=False)]
         show_i_like.head() #to see if you have succeeded 
@@ -77,12 +78,14 @@ Used the str.contains function that takes 2 arguments. The first is the string a
 
 ### The Analysis
 From the data we notice that even < 1 minute previews are counted as  episodes watch so we are filtering further to show those with a duration greater than 3 minutes atleast.
+
     ```
         show_i_like = show_i_like[(show_i_like['Duration'] > '0 days 00:01:00')]
         show_i_like.shape
     ```
 <br>
 We can now simply run the sum function on the dataframe and see how much time weve spent watching this particular show 
+
     ```
         show_i_like['Duration'].sum() #this will show you the amount of time you spent on that particular show 
     ```
