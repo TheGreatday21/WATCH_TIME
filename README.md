@@ -18,13 +18,17 @@ First run the command in terminal to install dependencies
    ```bash
    pip install -r requirements.txt
    ```
+<br>
 Then open the notebook , and  in a new code cell with python kernel , import the pandas library, the matplot lib library ,and your viewing activity dataset
+
     ```
         import pandas as pd
         import matplotlib.pyplot as plt
         df = pd.read_csv('ViewingActivity-sample.csv')
     ```
+<br>
 We can then carry out alittle exploration to understand the variables in our dataset from how many they are to their datatypes 
+
     ```
         df.head(5) #this shows you the first columns of your dataset
         df.shape() #show us how many rows and columns are in the dataset
@@ -32,18 +36,24 @@ We can then carry out alittle exploration to understand the variables in our dat
 
 ### Preparing for analysis
 For this particular project i only need the Start Time, Duration, and Title columns since iam just analysing how much and when ive watched a particular show . We use the drop function to drop the rest
+
     ```
         df = df.drop(['Profile Name', 'Attributes', 'Supplemental Video Type', 'Device Type', 'Bookmark', 'Latest Bookmark', 'Country', axis=1])
         df.head() #to ensure see our remaining columns 
     ```
+<br>
 To see which particular datatypes each column has we use the dtypes function. We notice the duration and start time are in obj format which wont favor our calculation so we convert them using pandas to suitable formats . Datetime for Starttime and timedelta for Duration
+
     ```
         df['Start Time'] = pd.to_datetime(df['Start Time'], utc=True)
         df['Duration'] = pd.to_timedelta(df['Duration'])
         print(df.dtypes)
 
     ```
+
+<br>
 To convert the Starttime to my local time i have to first turn the start time into an index using the set index function, change the time zone with the tz convert function  then  revert it back to a regular column using the reset index fucntion 
+
     ```
         # change the Start Time column into the dataframe's index
         df = df.set_index('Start Time')
@@ -54,6 +64,7 @@ To convert the Starttime to my local time i have to first turn the start time in
         #double-check that it worked
         df.head()
     ```
+<br>    
 Now that our data types are fixed we can proceed to analysis.
 
 ### Chosing a show to analyse
@@ -70,12 +81,14 @@ From the data we notice that even < 1 minute previews are counted as  episodes w
         show_i_like = show_i_like[(show_i_like['Duration'] > '0 days 00:01:00')]
         show_i_like.shape
     ```
-
+<br>
 We can now simply run the sum function on the dataframe and see how much time weve spent watching this particular show 
     ```
         show_i_like['Duration'].sum() #this will show you the amount of time you spent on that particular show 
     ```
-To answer the question of when you watched this show the most, we first need to engineer 2 additional features from the start time column i.e weekday and hour . We will be using the .dt.weekday and .dt.hour methods on the Start Time column and assigning  the results to new columns named weekday and hour
+<br>
+To answer the question of when you watched this show the most, we first need to engineer 2 additional features from the start time column i.e weekday and hour . We will be using the .dt.weekday and .dt.hour methods on the Start Time column and assigning  the results to new columns named weekday and hour.
+
     ```
         show_i_like['weekday'] = show_i_like['Start Time'].dt.weekday
         show_i_like['hour'] = show_i_like['Start Time'].dt.hour
@@ -83,9 +96,10 @@ To answer the question of when you watched this show the most, we first need to 
         # check to make sure the columns were added correctly
         show_i_like.head()
     ```
+<br>
 We will now use visuals from matplotlib to see 
-i) On which days of the week have I watched the most Office episodes?
-ii) During which hours of the day do I most often start Office episodes?
+-  On which days of the week have I watched the most Office episodes?
+-  During which hours of the day do I most often start Office episodes?
 
 ### Visualisations
 #### **By day** 
